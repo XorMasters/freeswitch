@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<include>
+  <context name="public">
+
+   <extension name="ChatPlan-FEP-DirectConnect">
+    <condition field="to_user" expression="CONTROL_CHANNEL_(.*)">
+        <action application="set" data="to=18773092073_892327789_Speaker@$1"/>
+        <action application="set" data=dest_proto=sip"/>
+        <action application="send"/>
+    </condition>
+   </extension>
+
+
+   <extension name="EP -> FEP">
+     <condition field="to_user" expression="^(1{0,1}\d{10})\_(\d{9})\_(.*)\_(Speaker|Moderator|Listener)\_(.*)$">
+       <action application="set" data="to=external/$1_$2_$4@$5"/>
+       <action application="set" data="dest_proto=sip"/>
+       <action application="send"/>
+     </condition>
+   </extension>
+
+   <extension name="ChatPlan-VCB - DirectConnect">
+    <condition field="to_user" expression="(.*)">
+    	<action application="set" data="to=internal/$1@10.39.65.46"/>
+	<action application="set" data=dest_proto=sip"/>
+    	<action application="send"/>
+    </condition>
+   </extension>
+
+<!--
+    <extension name="demo">
+      <condition field="to" expression="^(.*)$">
+	<action application="lua" data="handle_chat.lua"/> 
+	<action application="reply" data="Hello, you said: ${_body}"/>
+      </condition>
+    </extension>
+-->
+  </context>
+</include>
